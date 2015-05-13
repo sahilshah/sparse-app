@@ -1,4 +1,5 @@
 package com.sahils.sparsereconstruction;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -18,7 +19,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
-public class SparseRenderer implements GLSurfaceView.Renderer{
+public class SparseRenderer implements GLSurfaceView.Renderer {
 	private float[] mModelMatrix = new float[16];
 	private float[] mViewMatrix = new float[16];
 	private float[] mProjectionMatrix = new float[16];
@@ -36,8 +37,8 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 	private final int mColorOffset = 3;
 	private final int mColorDataSize = 4;
 
-	private float meanX,meanY,meanZ;
-	
+	private float meanX, meanY, meanZ;
+
 	public SparseRenderer(JSONObject recon_json) {
 
 		List<Float> my3dModelData = new ArrayList<Float>();
@@ -45,10 +46,10 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 			JSONObject x = recon_json.getJSONObject("points");
 			Iterator<?> keys = x.keys();
 			int i = 0;
-			float xp=0.0f,yp=0.0f,zp=0.0f;
+			float xp = 0.0f, yp = 0.0f, zp = 0.0f;
 			meanX = meanY = meanZ = 0.0f;
 			while (keys.hasNext()) {
-//				Log.i("JSON_PARSE", "Found key" + Integer.toString(i));
+				// Log.i("JSON_PARSE", "Found key" + Integer.toString(i));
 				String key = (String) keys.next();
 				if (x.get(key) instanceof JSONObject) {
 					i++;
@@ -58,11 +59,12 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 					xp = (float) p_arr.getDouble(0);
 					yp = (float) p_arr.getDouble(1);
 					zp = (float) p_arr.getDouble(2);
-					if(Math.abs(xp) > 10 || Math.abs(yp) > 10 || Math.abs(zp) > 10){
-						Log.i("BIG NUM",String.format("%d %f %f %f", i,xp,yp,zp));
+					if (Math.abs(xp) > 10 || Math.abs(yp) > 10
+							|| Math.abs(zp) > 10) {
+						Log.i("BIG NUM",
+								String.format("%d %f %f %f", i, xp, yp, zp));
 						i--;
-					}
-					else{
+					} else {
 						meanX += xp;
 						meanY += yp;
 						meanZ += zp;
@@ -70,22 +72,23 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 					my3dModelData.add(xp);
 					my3dModelData.add(yp);
 					my3dModelData.add(zp);
-					my3dModelData.add((float) c_arr.getDouble(0)/255.0f);
-					my3dModelData.add((float) c_arr.getDouble(1)/255.0f);
-					my3dModelData.add((float) c_arr.getDouble(2)/255.0f);
+					my3dModelData.add((float) c_arr.getDouble(0) / 255.0f);
+					my3dModelData.add((float) c_arr.getDouble(1) / 255.0f);
+					my3dModelData.add((float) c_arr.getDouble(2) / 255.0f);
 					my3dModelData.add(1.0f);
-					
+
 				}
 			}
-			meanX /= (float)(i+1);
-			meanY /= (float)(i+1);
-			meanZ /= (float)(i+1);
-			Log.i("JSON", String.format("Centroid is %f %f %f",meanX,meanY,meanZ));
+			meanX /= (float) (i + 1);
+			meanY /= (float) (i + 1);
+			meanZ /= (float) (i + 1);
+			Log.i("JSON",
+					String.format("Centroid is %f %f %f", meanX, meanY, meanZ));
 		} catch (JSONException e) {
 			Log.i("JSON_PARSE", "Parse error in Renderer");
 		}
 
-//		Log.i("DEBUG", "Array is: " + my3dModelData.toString());
+		// Log.i("DEBUG", "Array is: " + my3dModelData.toString());
 
 		float[] temp_fa = new float[my3dModelData.size()];
 		int i = 0;
@@ -108,7 +111,7 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 
 		// Position the eye behind the origin.
 		final float eyeX = 0.0f;
-		final float eyeY = 0.0f;
+		final float eyeY = -5.0f;
 		final float eyeZ = 10.0f;
 
 		// We are looking toward the distance
@@ -152,7 +155,7 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 														// It will be
 														// interpolated across
 														// the triangle.
-				+ "   gl_PointSize = 15.0;  \n"
+				+ "   gl_PointSize = 10.0;  \n"
 				+ "   gl_Position = u_MVPMatrix   \n" // gl_Position is a
 														// special variable used
 														// to store the final
@@ -317,8 +320,11 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 		GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
 		Matrix.setIdentityM(mModelMatrix, 0);
-//		Matrix.rotateM(mModelMatrix, 0, mAngleX, 1.0f, 0.0f, 0.0f);
+		// Matrix.translateM(mModelMatrix, 0, 3.5f, -8.7f, -3.2f);
+		// Matrix.rotateM(mModelMatrix, 0, 10 , 1.0f, 0.0f, 0.0f);
+		Matrix.rotateM(mModelMatrix, 0, 30, 0.0f, 0.0f, 1.0f);
 		Matrix.rotateM(mModelMatrix, 0, mAngleY, 0.0f, 1.0f, 0.0f);
+		// Matrix.translateM(mModelMatrix, 0, -3.5f, 8.7f, 3.2f);
 		drawPointCloud(mModel);
 	}
 
@@ -348,31 +354,30 @@ public class SparseRenderer implements GLSurfaceView.Renderer{
 		Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
 		GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-		GLES20.glDrawArrays(GLES20.GL_POINTS, 0,mModel.capacity()/7);
+		GLES20.glDrawArrays(GLES20.GL_POINTS, 0, mModel.capacity() / 7);
 	}
 
 	public volatile float mAngleX;
 	public volatile float mAngleY;
 
 	public float getAngleX() {
-        return mAngleX;
-    }
+		return mAngleX;
+	}
 
-    public void setAngleX(float angle) {
-        mAngleX = angle;
-    }
+	public void setAngleX(float angle) {
+		mAngleX = angle;
+	}
 
-    public float getAngleY() {
-        return mAngleY;
-    }
+	public float getAngleY() {
+		return mAngleY;
+	}
 
-    public void setAngleY(float angle) {
-        mAngleY = angle;
-    }
+	public void setAngleY(float angle) {
+		mAngleY = angle;
+	}
 
-    
-    public final void zoom(float mult){
-      Matrix.scaleM(mMVPMatrix, 0, mult, mult, mult);
-  }
-	
+	public final void zoom(float mult) {
+		Matrix.scaleM(mMVPMatrix, 0, mult, mult, mult);
+	}
+
 }

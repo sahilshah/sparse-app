@@ -25,7 +25,10 @@ public class ViewPointCloud extends Activity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		
+//		mGLSurfaceView = (MyGLSurfaceView) findViewById(R.id.pcv);
+		
 		String recon_json = null;
 		
 //		Intent intent = getIntent();
@@ -59,6 +62,7 @@ public class ViewPointCloud extends Activity  {
 
 		if (pnt_obj != null) {
 			mGLSurfaceView = new MyGLSurfaceView(this,pnt_obj);
+//			mGLSurfaceView.init(this,pnt_obj);
 		} else {
 			Log.i("TAG1", "some parsing error");
 			return;

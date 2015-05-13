@@ -8,13 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.sahils.sparsereconstruction.ViewPointCloud" >
 
-    <!--
-         <SurfaceView 
-        android:id="@+id/pcv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    -->
-
     <com.sahils.sparsereconstruction.MyGLSurfaceView
         android:id="@+id/pcv"
         android:layout_width="fill_parent"

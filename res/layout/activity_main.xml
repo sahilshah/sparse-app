@@ -34,7 +34,7 @@
         android:layout_above="@+id/btn_recon"
         android:layout_alignLeft="@+id/gridview"
         android:text="Capture" />
-    
+
     <Button
         android:id="@+id/btn_display"
         android:layout_width="match_parent"
@@ -42,5 +42,22 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Display" />
+
+    <FrameLayout
+        android:id="@+id/inpickup"
+        android:layout_width="30dp"
+        android:layout_height="match_parent" >
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/pb1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignBottom="@+id/gridview"
+        android:layout_centerHorizontal="true" 
+        android:padding="50dp"
+        android:background="#CCCCCC"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

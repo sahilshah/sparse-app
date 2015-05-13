@@ -1,20 +1,13 @@
 package com.sahils.sparsereconstruction;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import ch.boye.httpclientandroidlib.HttpResponse;
 import ch.boye.httpclientandroidlib.client.HttpClient;
@@ -222,11 +216,10 @@ public class MainActivity extends Activity {
 
 		@Override
 		protected Boolean doInBackground(String... params) {
-			tryMultipartEntityBuilder();
-			return true;
+			return tryMultipartEntityBuilder();
 		}
 
-		void tryMultipartEntityBuilder() {
+		boolean tryMultipartEntityBuilder() {
 			try {
 				String urlPath = "http://10.0.0.14:5000/upload";
 				HttpClient httpClient = new DefaultHttpClient();
@@ -247,32 +240,37 @@ public class MainActivity extends Activity {
 				resp_json_str = EntityUtils.toString(response.getEntity());
 				Log.i("RESPONSE", "Successfully saved json response as string");
 				// JSONArray recon_json = new JSONArray(responseText);
+				if(response.getStatusLine().getStatusCode() == 200)
+					return true;
+				else
+					return false;
 
 			} catch (Exception e) {
 				e.printStackTrace();
+				return false;
 			}
 		}
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
+			Log.i("PB","Here with result: " + result.toString());
 			runOnUiThread(new Runnable() {
 				public void run() {
-					// ProgressBar pb;
-					// pb = (ProgressBar)findViewById(id);
-					// pb.setVisibility(View.INVISIBLE);
+					 ProgressBar pb;
+					 pb = (ProgressBar)findViewById(R.id.pb1);
+					 pb.setVisibility(View.GONE);
 				}
 			});
-			// TODO: handle reconstruction json
 		}
 
 		@Override
 		protected void onPreExecute() {
 			runOnUiThread(new Runnable() {
 				public void run() {
-					// ProgressBar pb;
-					// pb = (ProgressBar)findViewById(id);
-					// pb.setVisibility(View.VISIBLE);
+					 ProgressBar pb;
+					 pb = (ProgressBar)findViewById(R.id.pb1);
+					 pb.setVisibility(View.VISIBLE);
 				}
 			});
 		}

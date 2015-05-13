@@ -9,12 +9,18 @@ import android.view.MotionEvent;
 
 public class MyGLSurfaceView extends GLSurfaceView {
 
-	private final SparseRenderer mRenderer;
+	private SparseRenderer mRenderer = null;
+	float mScaleFactor;
 
-	public MyGLSurfaceView(Context context, JSONObject json_obj) {
+	public MyGLSurfaceView(Context c, AttributeSet attr) {
+		super(c, attr);
+	}
+
+	public MyGLSurfaceView(Context context) {
 		super(context);
+	}
 
-		// Create an OpenGL ES 2.0 context.
+	public void init(Context context, JSONObject json_obj) {
 		setEGLContextClientVersion(2);
 
 		// Set the Renderer for drawing on the GLSurfaceView
@@ -23,6 +29,17 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
 		// Render the view only when there is a change in the drawing data
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+	}
+
+	public MyGLSurfaceView(Context context, JSONObject json_obj) {
+		super(context);
+
+		setEGLContextClientVersion(2);
+		mRenderer = new SparseRenderer(json_obj);
+		setRenderer(mRenderer);
+
+		// Render the view only when there is a change in the drawing data
+//		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 	}
 
 	private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
@@ -55,6 +72,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		// mPreviousY = y;
 		// break;
 		// }
+		// mScaleDetector.onTouchEvent(e);
 
 		float x = e.getX();
 		float y = e.getY();
@@ -75,8 +93,16 @@ public class MyGLSurfaceView extends GLSurfaceView {
 				dy = dy * -1;
 			}
 
+			// if (Math.abs(dy) > Math.abs(dx)) {
 			mRenderer.setAngleY(mRenderer.getAngleY()
 					+ ((dx + dy) * TOUCH_SCALE_FACTOR)); // = 180.0f / 320
+			mRenderer.setAngleX(0.0f);
+			// } else {
+			// mRenderer.setAngleX(mRenderer.getAngleX()
+			// + ((dx + dy) * TOUCH_SCALE_FACTOR));
+			// mRenderer.setAngleY(0.0f);
+			// }
+
 			requestRender();
 		}
 
