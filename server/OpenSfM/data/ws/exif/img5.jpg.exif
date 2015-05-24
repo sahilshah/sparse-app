@@ -1,0 +1,16 @@
+{
+    "width": 2448, 
+    "k1": 0.0, 
+    "camera": "apple iphone 6 back camera 4.15mm f/2.2", 
+    "orientation": 1, 
+    "focal_prior": 0.8055555555555556, 
+    "k2": 0.0, 
+    "gps": {
+        "latitude": 40.44354722222222, 
+        "altitude": 281.5566502463054, 
+        "longitude": -79.94541944444445
+    }, 
+    "model": "iPhone 6 back camera 4.15mm f/2.2", 
+    "make": "Apple", 
+    "height": 3264
+}

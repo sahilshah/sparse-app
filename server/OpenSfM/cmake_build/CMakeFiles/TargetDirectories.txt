@@ -1,0 +1,4 @@
+/Users/sahilshah/Desktop/developer/geometry/python/OpenSfM/cmake_build/CMakeFiles/csfm.dir
+/Users/sahilshah/Desktop/developer/geometry/python/OpenSfM/cmake_build/CMakeFiles/mv.dir
+/Users/sahilshah/Desktop/developer/geometry/python/OpenSfM/cmake_build/CMakeFiles/vl.dir
+/Users/sahilshah/Desktop/developer/geometry/python/OpenSfM/cmake_build/CMakeFiles/akaze.dir

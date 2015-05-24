@@ -1,0 +1,10 @@
+{
+    "apple iphone 6 back camera 4.15mm f/2.2": {
+        "k2": 0.0, 
+        "width": 2448, 
+        "height": 3264, 
+        "focal_prior": 0.8055555555555556, 
+        "k1": 0.0, 
+        "focal": 0.8055555555555556
+    }
+}

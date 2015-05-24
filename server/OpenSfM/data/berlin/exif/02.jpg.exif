@@ -1,0 +1,17 @@
+{
+    "width": 3264, 
+    "k1": 0.0, 
+    "camera": "apple iphone 4s back camera 4.28mm f/2.4", 
+    "orientation": 1, 
+    "focal_prior": 0.9722222222222222, 
+    "k2": 0.0, 
+    "gps": {
+        "latitude": 52.518924999999996, 
+        "altitude": 30.0, 
+        "dop": 5.0, 
+        "longitude": 13.40038888888889
+    }, 
+    "model": "iPhone 4S back camera 4.28mm f/2.4", 
+    "make": "Apple", 
+    "height": 2448
+}
